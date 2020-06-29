@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.OleDb;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -29,6 +30,7 @@ namespace New_CBC_CBS.Services
                 {
 
                     string packkingListPath = outputFolder + "\\" + CBS.outputFolder + "\\BlockP.txt";
+                    ZipFileServices.DeletePrinterFIle();
                     if (File.Exists(packkingListPath))
                         File.Delete(packkingListPath);
                     var checks = _checks.Where(a => a.ChkType == Scheck).Distinct().ToList();
@@ -51,6 +53,7 @@ namespace New_CBC_CBS.Services
                 {
 
                     string packkingListPath = outputFolder + "\\" + CBS.outputFolder + "\\BlockC.txt";
+                    ZipFileServices.DeletePrinterFIle();
                     if (File.Exists(packkingListPath))
                         File.Delete(packkingListPath);
                     var checks = _checks.Where(a => a.ChkType == Scheck).Distinct().ToList();
@@ -74,6 +77,7 @@ namespace New_CBC_CBS.Services
                 {
                     //_outpuFolder = "Check Write";
                     string packkingListPath = outputFolder + "\\" + CBS.outputFolder + "\\BlockP.txt";
+                    ZipFileServices.DeletePrinterFIle();
                     if (File.Exists(packkingListPath))
                         File.Delete(packkingListPath);
                     var checks = _checks.Where(a => a.ChkType == Scheck).Distinct().ToList();
@@ -98,6 +102,7 @@ namespace New_CBC_CBS.Services
                 {
                 //    _outpuFolder = "Check with Voucher";
                     string packkingListPath = outputFolder + "\\" + CBS.outputFolder + "\\BlockP.txt";
+                    ZipFileServices.DeletePrinterFIle();
                     if (File.Exists(packkingListPath))
                         File.Delete(packkingListPath);
                     var checks = _checks.Where(a => a.ChkType == Scheck).Distinct().ToList();
@@ -348,7 +353,7 @@ namespace New_CBC_CBS.Services
                         if (check.ChkName == "")
                         {
                             //i++;
-                            oConnect.Close();
+                      //      oConnect.Close();
                         }
                         else
                         {
@@ -403,7 +408,7 @@ namespace New_CBC_CBS.Services
                         if (check.ChkName == "")
                         {
                             //i++;
-                            oConnect.Close();
+                       //     oConnect.Close();
                         }
                         else
                         {
@@ -449,7 +454,7 @@ namespace New_CBC_CBS.Services
             {
                 if (checktype == "CV")
                 {
-                    string printerFilePathA = outputFolder +"\\" + CBS.outputFolder + "\\CV" + _mainForm.batchfile.Substring(0, 4)+  "CA.txt";
+                    string printerFilePathA = outputFolder +"\\" + CBS.outputFolder + "\\" + _checkModel[0].FileName;
                     var check = _checkModel.Where(e => e.ChkType == checktype).ToList();
                     if (File.Exists(printerFilePathA))
                         File.Delete(printerFilePathA);
@@ -467,6 +472,7 @@ namespace New_CBC_CBS.Services
 
                         file.WriteLine(output);
                     }
+                    ZipFileServices.CopyPrinterFile(LogIn.userName, _mainForm, _checkModel[0].FileName);
                     //}
                     //  ZipFileServices.CopyPrinterFile(checktype, _mainForm);
                     // ZipFileServices.CopyPackingDBF(checktype, _mainForm);
@@ -477,7 +483,7 @@ namespace New_CBC_CBS.Services
             {
                 if (checktype == "B")
                 {
-                    string printerFilePath = outputFolder + "\\" + CBS.outputFolder + "\\CBS" /*+ _mainForm.batchfile.Substring(0, 4)*/ + "C.txt";
+                    string printerFilePath = outputFolder + "\\" + CBS.outputFolder + "\\" + _checkModel[0].FileName;
                     var check = _checkModel.Where(e => e.ChkType == checktype).ToList();
                     if (File.Exists(printerFilePath))
                         File.Delete(printerFilePath);
@@ -494,6 +500,7 @@ namespace New_CBC_CBS.Services
 
                         file.WriteLine(output);
                     }
+                    ZipFileServices.CopyPrinterFile(LogIn.userName, _mainForm, _checkModel[0].FileName);
                     //}
                     // ZipFileServices.CopyPrinterFile(checktype, _mainForm);
                     //ZipFileServices.CopyPackingDBF(checktype, _mainForm);
@@ -504,7 +511,7 @@ namespace New_CBC_CBS.Services
                 if (checktype == "CW")
                 {
                    // _outputFolder = "Check Write";
-                    string printerFilePath = outputFolder + "\\" + CBS.outputFolder + "\\CBS" /*+ _mainForm.batchfile.Substring(0, 4)*/ + "C.txt";
+                    string printerFilePath = outputFolder + "\\" + CBS.outputFolder + "\\" +_checkModel[0].FileName;
                     var check = _checkModel.Where(e => e.ChkType == checktype).ToList();
                     if (File.Exists(printerFilePath))
                         File.Delete(printerFilePath);
@@ -521,6 +528,7 @@ namespace New_CBC_CBS.Services
 
                         file.WriteLine(output);
                     }
+                    ZipFileServices.CopyPrinterFile(LogIn.userName, _mainForm, _checkModel[0].FileName);
                     //}
                     // ZipFileServices.CopyPrinterFile(checktype, _mainForm);
                     //ZipFileServices.CopyPackingDBF(checktype, _mainForm);
@@ -548,11 +556,18 @@ namespace New_CBC_CBS.Services
 
                         file.WriteLine(output);
                     }
+                    ZipFileServices.CopyPrinterFile(LogIn.userName, _mainForm, _checkModel[0].FileName);
                     //}
                     // ZipFileServices.CopyPrinterFile(checktype, _mainForm);
                     //ZipFileServices.CopyPackingDBF(checktype, _mainForm);
                 }
             }
+        }//end of fuction
+        public void KillExcel()
+        {
+            foreach (Process clsProcess in Process.GetProcesses())
+                if (clsProcess.ProcessName.Equals("EXCEL"))  //Process Excel?
+                    clsProcess.Kill();
         }
     }
 }

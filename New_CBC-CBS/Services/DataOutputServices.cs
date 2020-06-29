@@ -34,7 +34,7 @@ namespace New_CBC_CBS.Services
             int page = 1, lineCount = 14, blockCounter = 1, blockContent = 1;
             string date = DateTime.Now.ToString("MMM. dd, yyyy");
             bool noFooter = true;
-            string countText = "";
+          //  string countText = "";
             string output = "";
 
             //Sort Check List

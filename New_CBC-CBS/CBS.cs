@@ -128,8 +128,8 @@ namespace New_CBC_CBS
             con.DumpMySQL(); //Create database backup
             zip.ZipFileS(LogIn.userName, this); // creating zip file for processed data\
             zip.CopyZipFile(LogIn.userName, this);
-          //  ZipFileServices.CopyPacking(LogIn.userName, this);
-         //   ZipFileServices.DeleteExcel();
+            ZipFileServices.CopyPacking(LogIn.userName, this);
+            ZipFileServices.DeleteExcel();
             MessageBox.Show("Done!");
             Environment.Exit(0);
         }
@@ -197,8 +197,8 @@ namespace New_CBC_CBS
 
                                         // _fileName = Path.GetFileName(list[i]);
                                         Excel.Application xlApp = new Excel.Application();
-                                        Excel.Workbook xlWorkbook = xlApp.Workbooks.Open(FileName);
-
+                                        Excel.Workbook xlWorkbook = xlApp.Workbooks.Open(list[0]);
+                                   // MessageBox.Show(FileName);
                                         int SheetsCount = xlWorkbook.Sheets.Count;
                                         for (int b = 0; b < SheetsCount; b++)
                                         {
@@ -274,9 +274,9 @@ namespace New_CBC_CBS
 
                                             }
 
-                                            //xlWorkbook.Close(0);
-                                            //xlApp.Quit();
-                                        }
+                                        xlWorkbook.Close(0);
+                                        xlApp.Quit();
+                                    }
 
                                     }
 
